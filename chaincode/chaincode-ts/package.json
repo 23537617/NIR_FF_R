@@ -1,0 +1,40 @@
+{
+    "name": "taskdocument",
+    "version": "1.0.0",
+    "description": "NPA Task Document Chaincode implemented in TypeScript",
+    "main": "dist/index.js",
+    "typings": "dist/index.d.ts",
+    "engines": {
+        "node": ">=18",
+        "npm": ">=9"
+    },
+    "scripts": {
+        "lint": "eslint . --ext .ts",
+        "pretest": "npm run lint",
+        "test": "nyc mocha -r ts-node/register src/**/*.spec.ts",
+        "start": "sh -c 'fabric-chaincode-node server --chaincode-address=0.0.0.0:9999 --chaincode-id=$CHAINCODE_ID'",
+        "build": "tsc",
+        "build:watch": "tsc -w",
+        "prepublishOnly": "npm run build"
+    },
+    "engineStrict": true,
+    "author": "Hyperledger",
+    "license": "Apache-2.0",
+    "dependencies": {
+        "fabric-contract-api": "^2.5.3",
+        "fabric-shim": "^2.5.3"
+    },
+    "devDependencies": {
+        "@types/chai": "^4.3.4",
+        "@types/mocha": "^10.0.1",
+        "@types/node": "^18.14.0",
+        "@typescript-eslint/eslint-plugin": "^5.53.0",
+        "@typescript-eslint/parser": "^5.53.0",
+        "chai": "^4.3.7",
+        "eslint": "^8.34.0",
+        "mocha": "^10.2.0",
+        "nyc": "^15.1.0",
+        "ts-node": "^10.9.1",
+        "typescript": "^4.9.5"
+    }
+}

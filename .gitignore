@@ -1,0 +1,51 @@
+# Hyperledger Fabric generated artifacts
+organizations/
+channel-artifacts/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker volumes and data
+*.volumes
+ipfs-data/
+ipfs-staging/
+*.data
+
+# Logs
+*.log
+logs/
+
+# Large files
+*.dump
+*.sql
+*.zip
+*.tar.gz
+*.tar
+
+# Cache
+.cache/
+*.cache
+
+# Temporary files
+*.tmp
+*.temp
+~$*

@@ -1,0 +1,104 @@
+### FastAPI Backend - Примеры запросов
+### Используйте REST Client extension для VS Code или аналогичный инструмент
+
+@baseUrl = http://localhost:8000
+@contentType = application/json
+@roleAdmin = admin
+@roleJurist = юрист
+@roleExpert = эксперт
+@roleModerator = модератор
+
+### Health Check
+GET {{baseUrl}}/health
+
+### Создание задачи (требуется роль admin)
+POST {{baseUrl}}/task/create
+Content-Type: {{contentType}}
+X-User-Role: {{roleAdmin}}
+
+{
+  "task_id": "TASK001",
+  "title": "Разработка новой функции",
+  "description": "Реализовать новую функцию в chaincode",
+  "assignee": "developer1",
+  "creator": "admin"
+}
+
+### Получение задачи (требуется разрешение на просмотр)
+GET {{baseUrl}}/task/TASK001
+X-User-Role: {{roleJurist}}
+
+### Обновление статуса задачи
+POST {{baseUrl}}/task/status/update
+Content-Type: {{contentType}}
+
+{
+  "task_id": "TASK001",
+  "status": "IN_PROGRESS",
+  "updated_by": "developer1"
+}
+
+### Добавление версии документа
+POST {{baseUrl}}/document/addVersion
+Content-Type: {{contentType}}
+
+{
+  "task_id": "TASK001",
+  "document_id": "DOC001",
+  "version": "1.0",
+  "content_hash": "sha256:abc123def456",
+  "uploaded_by": "developer1",
+  "metadata": {
+    "filename": "specification.pdf",
+    "size": 2048,
+    "mime_type": "application/pdf"
+  }
+}
+
+### Получение версий документа (требуется разрешение на просмотр)
+GET {{baseUrl}}/document/versions/DOC001?task_id=TASK001
+X-User-Role: {{roleJurist}}
+
+### Добавление второй версии документа
+POST {{baseUrl}}/document/addVersion
+Content-Type: {{contentType}}
+
+{
+  "task_id": "TASK001",
+  "document_id": "DOC001",
+  "version": "2.0",
+  "content_hash": "sha256:xyz789ghi012",
+  "uploaded_by": "developer2",
+  "metadata": {
+    "filename": "specification_v2.pdf",
+    "size": 3072,
+    "changes": "Обновлена спецификация"
+  }
+}
+
+### Подтверждение задачи экспертом (требуется роль эксперт)
+POST {{baseUrl}}/task/confirm
+Content-Type: {{contentType}}
+X-User-Role: {{roleExpert}}
+
+{
+  "task_id": "TASK001",
+  "confirmed_by": "expert1",
+  "comment": "Задача соответствует требованиям"
+}
+
+### Завершение задачи (требуется роль модератор)
+POST {{baseUrl}}/task/status/update
+Content-Type: {{contentType}}
+X-User-Role: {{roleModerator}}
+
+{
+  "task_id": "TASK001",
+  "status": "COMPLETED",
+  "updated_by": "moderator1"
+}
+
+### Информация о пользователе и разрешениях
+GET {{baseUrl}}/auth/user-info
+X-User-Role: {{roleJurist}}
+

@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: npa-api
+    ports:
+      - "8000:8000"
+    environment:
+      - API_PORT=8000
+      - API_HOST=0.0.0.0
+      - FABRIC_CONNECTION_PROFILE=../client/connection-org1.json
+      - FABRIC_CHANNEL=npa-channel
+      - FABRIC_CHAINCODE=taskdocument
+      - FABRIC_ORG=Org1
+      - FABRIC_USER=Admin
+    volumes:
+      - .:/app
+      - ../client:/app/../client
+    networks:
+      - fabric-network
+    restart: unless-stopped
+
+networks:
+  fabric-network:
+    external: true
+
+
+
